@@ -1,4 +1,3 @@
-
 // function to generate the right "phrase" based on the time
 
 void displayTime(void) {
@@ -240,12 +239,3 @@ void displayTime(void) {
   applyMask(); // apply phrase mask to colorshift function
 
 }
-
-
-
-
-
-
-
-
-

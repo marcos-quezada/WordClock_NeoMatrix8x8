@@ -31,14 +31,14 @@
 
    grid pattern
 
-    A T W E N T Y D
-    Q U A R T E R Y
-    F I V E H A L F
-    D P A S T O R O
-    F I V E I G H T
-    S I X T H R E E
-    T W E L E V E N
-    F O U R N I N E
+   T H R T W O N E 
+   T W E L E V E N 
+   E N E I G H T I 
+   S I X S E V E N 
+   F O U R F I V E 
+   T H I R T W E N 
+   M F I F O R T Y 
+   E F I V T E E N
 
 
     Acknowledgements:
@@ -79,7 +79,6 @@ uint64_t mask;
 #define TEN      mask |= 0x1010100
 #define ELEVEN   mask |= 0x3F00
 #define TWELVE   mask |= 0xF600
-#define ANDYDORO mask |= 0x8901008700000000
 
 // define pins
 #define NEOPIN 8  // connect to DIN on NeoMatrix 8x8
@@ -112,7 +111,7 @@ int j;   // an integer for the color shifting effect
 // https://en.wikipedia.org/wiki/Daylight_saving_time_by_country
 // Use 1 if you observe DST, 0 if you don't. This is programmed for DST in the US / Canada. If your territory's DST operates differently,
 // you'll need to modify the code in the calcTheTime() function to make this work properly.
-//#define OBSERVE_DST 1
+#define OBSERVE_DST 1
 
 
 // Parameter 1 = number of pixels in strip
@@ -172,8 +171,9 @@ void setup() {
   matrix.show();
 
   // startup sequence... do colorwipe?
-  // delay(500);
+  delay(500);
   // rainbowCycle(20);
+  plasmaMorph(70);
   delay(500);
   flashWords(); // briefly flash each word in sequence
   delay(500);
@@ -194,5 +194,3 @@ void loop() {
 
 
 }
-
-

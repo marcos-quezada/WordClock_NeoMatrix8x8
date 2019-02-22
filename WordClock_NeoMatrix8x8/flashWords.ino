@@ -1,11 +1,6 @@
-
 // test function, can we draw those words correctly?
 
 void flashWords(void) {
-
-  ANDYDORO;  // my name hidden in here
-  applyMask();
-  delay(FLASHDELAY * 2);
 
   MFIVE;
   applyMask();
@@ -88,8 +83,3 @@ void flashWords(void) {
   delay(FLASHDELAY);
 
 }
-
-
-
-
-

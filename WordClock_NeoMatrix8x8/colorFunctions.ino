@@ -66,3 +66,98 @@ void rainbowCycle(uint8_t wait) {
   }
 }
 
+typedef struct
+{
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
+} ColorRGB;
+
+//a color with 3 components: h, s and v
+typedef struct 
+{
+  unsigned char h;
+  unsigned char s;
+  unsigned char v;
+} ColorHSV;
+
+void plasmaMorph(uint8_t wait){
+
+  float value;
+  ColorRGB colorRGB;
+  ColorHSV colorHSV;
+  long paletteShift=128000;
+  float PlasmaScaling = 10.0;
+
+  uint16_t i, x, y;
+
+  for (i = 0; i < wait; i++){ 
+     for(y = 0; y < 8; y++)
+      for( x = 0; x < 8; x++) {
+        value = sin((x + paletteShift) / PlasmaScaling)
+                + sin(dist(x, y, 64.0, 64.0) / PlasmaScaling)
+                + sin((y + paletteShift / 7.0) / PlasmaScaling)
+                + sin(dist(x, y, 192.0, 100.0) / PlasmaScaling);
+              colorHSV.h=(unsigned char)((value) * 128)&0xff;
+              colorHSV.s=255; 
+              colorHSV.v=255;
+        HSVtoRGB(&colorRGB, &colorHSV);
+    
+        matrix.drawPixel(x, y, matrix.Color(colorRGB.r, colorRGB.g, colorRGB.b));
+    }
+    paletteShift++;
+    matrix.show();    
+  }
+}
+
+//Converts an HSV color to RGB color
+void HSVtoRGB(void *vRGB, void *vHSV) 
+{
+  float r, g, b, h, s, v; //this function works with floats between 0 and 1
+  float f, p, q, t;
+  int i;
+  ColorRGB *colorRGB=(ColorRGB *)vRGB;
+  ColorHSV *colorHSV=(ColorHSV *)vHSV;
+
+  h = (float)(colorHSV->h / 256.0);
+  s = (float)(colorHSV->s / 256.0);
+  v = (float)(colorHSV->v / 256.0);
+
+  //if saturation is 0, the color is a shade of grey
+  if(s == 0.0) {
+    b = v;
+    g = b;
+    r = g;
+  }
+  //if saturation > 0, more complex calculations are needed
+  else
+  {
+    h *= 6.0; //to bring hue to a number between 0 and 6, better for the calculations
+    i = (int)(floor(h)); //e.g. 2.7 becomes 2 and 3.01 becomes 3 or 4.9999 becomes 4
+    f = h - i;//the fractional part of h
+
+    p = (float)(v * (1.0 - s));
+    q = (float)(v * (1.0 - (s * f)));
+    t = (float)(v * (1.0 - (s * (1.0 - f))));
+
+    switch(i)
+    {
+      case 0: r=v; g=t; b=p; break;
+      case 1: r=q; g=v; b=p; break;
+      case 2: r=p; g=v; b=t; break;
+      case 3: r=p; g=q; b=v; break;
+      case 4: r=t; g=p; b=v; break;
+      case 5: r=v; g=p; b=q; break;
+      default: r = g = b = 0; break;
+    }
+  }
+  colorRGB->r = (int)(r * 255.0);
+  colorRGB->g = (int)(g * 255.0);
+  colorRGB->b = (int)(b * 255.0);
+}
+
+float
+dist(float a, float b, float c, float d) 
+{
+  return sqrt((c-a)*(c-a)+(d-b)*(d-b));
+}
