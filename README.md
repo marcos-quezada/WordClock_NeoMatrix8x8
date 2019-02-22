@@ -1,6 +1,6 @@
  WORD CLOCK - NeoMatrix 8x8 Desktop Edition
 ================
- by Andy Doro & Dano Wall modifyied by Marcos Quezada Pérez
+ by Andy Doro & Dano Wall modified by Marcos Quezada Pérez
  
 https://andydoro.com/wordclockdesktop/
 
